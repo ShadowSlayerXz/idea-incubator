@@ -77,31 +77,37 @@ const HomePage = () => {
 
       {/* Browse */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-          <h2 className="text-xl font-semibold text-gray-900">Browse Ideas</h2>
-          <SearchBar onSearch={handleSearch} />
-        </div>
+        {isAuthenticated && (
+          <>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <h2 className="text-xl font-semibold text-gray-900">Browse Ideas</h2>
+              <SearchBar onSearch={handleSearch} />
+            </div>
 
-        {/* Category filter */}
-        <div className="flex flex-wrap gap-2 mb-8">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => handleCategory(cat)}
-              className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
-                activeCategory === cat
-                  ? 'bg-indigo-600 text-white'
-                  : 'bg-white border border-gray-300 text-gray-600 hover:border-indigo-400 hover:text-indigo-600'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+            {/* Category filter */}
+            <div className="flex flex-wrap gap-2 mb-8">
+              {CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => handleCategory(cat)}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${
+                    activeCategory === cat
+                      ? 'bg-indigo-600 text-white'
+                      : 'bg-white border border-gray-300 text-gray-600 hover:border-indigo-400 hover:text-indigo-600'
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </>
+        )}
 
-        <IdeaList ideas={ideas} loading={loading} />
+        {isAuthenticated ? (
+          <>
+            <IdeaList ideas={ideas} loading={loading} />
 
-        {/* Pagination */}
+            {/* Pagination */}
         {pagination.pages > 1 && (
           <div className="flex items-center justify-center gap-2 mt-10">
             <button
@@ -133,6 +139,25 @@ const HomePage = () => {
             >
               <FiChevronRight size={16} />
             </button>
+          </div>
+          </>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="w-16 h-16 rounded-full bg-indigo-100 flex items-center justify-center mb-4">
+              <FiArrowRight size={24} className="text-indigo-600" />
+            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Sign in to browse ideas</h3>
+            <p className="text-gray-500 text-sm mb-6 max-w-sm">
+              Create an account or sign in to explore research and startup ideas from your peers.
+            </p>
+            <div className="flex gap-3">
+              <Link to="/register" className="px-5 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors">
+                Get Started
+              </Link>
+              <Link to="/login" className="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors">
+                Sign In
+              </Link>
+            </div>
           </div>
         )}
       </section>

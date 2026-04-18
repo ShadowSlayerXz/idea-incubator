@@ -37,7 +37,6 @@ function App() {
       <Routes>
         {/* Public with layout */}
         <Route path="/" element={<Layout><HomePage /></Layout>} />
-        <Route path="/ideas/:id" element={<Layout><IdeaDetailPage /></Layout>} />
         <Route path="/profile/:id" element={<Layout><ProfilePage /></Layout>} />
 
         {/* Auth pages (redirect if already logged in) */}
@@ -46,6 +45,7 @@ function App() {
 
         {/* Protected routes */}
         <Route element={<ProtectedRoute />}>
+          <Route path="/ideas/:id" element={<Layout><IdeaDetailPage /></Layout>} />
           <Route path="/dashboard" element={<Layout><DashboardPage /></Layout>} />
           <Route path="/ideas/create" element={<Layout><CreateIdeaPage /></Layout>} />
           <Route path="/ideas/:id/edit" element={<Layout><EditIdeaPage /></Layout>} />
