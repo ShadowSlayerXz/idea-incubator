@@ -1,0 +1,128 @@
+{
+  "project": "Full Stack MERN Application with JWT Authentication",
+  "prerequisites": {
+    "node_js_npm": {
+      "description": "JavaScript runtime and package manager",
+      "steps": ["Install Node.js and npm", "Verify using: node -v, npm -v"]
+    },
+    "mongodb": {
+      "description": "NoSQL database",
+      "options": ["Local MongoDB installation", "MongoDB Atlas (cloud)"],
+      "tools": ["MongoDB Compass (optional GUI)"]
+    },
+    "react": {
+      "description": "Frontend library for UI",
+      "setup": [
+        "npm create vite@latest",
+        "Select React",
+        "cd project-name",
+        "npm install",
+        "npm run dev"
+      ]
+    },
+    "backend": {
+      "description": "Node.js + Express backend",
+      "setup": ["mkdir backend", "cd backend", "npm init -y"]
+    }
+  },
+  "basic_knowledge_required": [
+    "HTML",
+    "CSS / Tailwind CSS",
+    "JavaScript (ES6+)",
+    "React Basics",
+    "REST APIs",
+    "Node.js",
+    "Express.js",
+    "MongoDB",
+    "Mongoose",
+    "Middleware",
+    "Authentication & Authorization (JWT)",
+    "Password Security (bcrypt)",
+    "Environment Variables (dotenv)",
+    "Error Handling"
+  ],
+  "authentication": {
+    "type": "JWT",
+    "concepts": [
+      "Token generation",
+      "Token verification",
+      "Middleware protection",
+      "Login / Signup flow"
+    ]
+  },
+  "version_control": {
+    "tool": "Git",
+    "commands": ["git init", "git add .", "git commit -m \"Initial commit\""]
+  },
+  "development_tools": ["Visual Studio Code", "Postman", "MongoDB Compass"],
+  "project_structure": {
+    "frontend": {
+      "folders": ["components", "pages", "services", "routes"],
+      "files": ["App.jsx", "main.jsx", "package.json"]
+    },
+    "backend": {
+      "folders": ["controllers", "models", "routes", "middleware", "config"],
+      "files": ["server.js", "package.json"]
+    }
+  },
+  "minimum_requirements": {
+    "frontend_styling": ["Tailwind CSS or UI libraries"],
+    "api_communication": ["Axios or Fetch API"],
+    "routing": ["React Router DOM"],
+    "backend": ["Node.js + Express", "MVC architecture"],
+    "database": ["MongoDB", "Mongoose"],
+    "authentication_security": [
+      "JWT Authentication",
+      "bcrypt password hashing",
+      "Protected routes"
+    ],
+    "crud": ["Create", "Read", "Update", "Delete"],
+    "state_management": ["Context API", "Redux", "Zustand"],
+    "error_handling": ["Proper status codes", "Frontend alerts/toasts"],
+    "environment_config": [".env for DB URI, JWT secret, port"]
+  },
+  "npm_packages": {
+    "frontend": [
+      "axios",
+      "react-router-dom",
+      "tailwindcss",
+      "react-icons",
+      "react-toastify",
+      "formik",
+      "yup",
+      "redux / zustand"
+    ],
+    "backend": [
+      "express",
+      "mongoose",
+      "jsonwebtoken",
+      "bcryptjs",
+      "cors",
+      "dotenv",
+      "nodemon",
+      "express-validator"
+    ]
+  },
+  "application_flow": [
+    "User registers → data stored in MongoDB (hashed)",
+    "User logs in → JWT generated",
+    "Token stored in frontend",
+    "Protected routes require token",
+    "CRUD operations via API"
+  ],
+  "user_flow": [
+    "Register",
+    "Login",
+    "Redirect to dashboard",
+    "Perform CRUD operations",
+    "Logout"
+  ],
+  "optional_enhancements": [
+    "Role-based authentication",
+    "File upload (Cloudinary / Multer)",
+    "Pagination & search",
+    "Dark mode UI",
+    "Deployment (Vercel, Render, AWS)"
+  ],
+  "note": "Must follow minimum requirements to complete the project"
+}
