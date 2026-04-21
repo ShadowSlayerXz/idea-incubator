@@ -42,6 +42,15 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
+const getIdeas = async (req, res, next) => {
+  try {
+    const ideas = await Idea.find().populate('author', 'name email').sort({ createdAt: -1 });
+    res.json(ideas);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const deleteIdea = async (req, res, next) => {
   try {
     const idea = await Idea.findById(req.params.id);
@@ -53,4 +62,4 @@ const deleteIdea = async (req, res, next) => {
   }
 };
 
-module.exports = { getUsers, updateUserRole, deleteUser, deleteIdea };
+module.exports = { getUsers, updateUserRole, deleteUser, getIdeas, deleteIdea };

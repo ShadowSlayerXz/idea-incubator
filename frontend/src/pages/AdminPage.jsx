@@ -16,6 +16,7 @@ const AdminPage = () => {
   const { user, isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
+  const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,10 +24,15 @@ const AdminPage = () => {
       navigate('/');
       return;
     }
-    axiosInstance
-      .get('/admin/users')
-      .then((res) => setUsers(res.data))
-      .catch(() => toast.error('Failed to load users'))
+    Promise.all([
+      axiosInstance.get('/admin/users'),
+      axiosInstance.get('/admin/ideas'),
+    ])
+      .then(([usersRes, ideasRes]) => {
+        setUsers(usersRes.data);
+        setIdeas(ideasRes.data);
+      })
+      .catch(() => toast.error('Failed to load admin data'))
       .finally(() => setLoading(false));
   }, [isAuthenticated, user, navigate]);
 
@@ -48,6 +54,17 @@ const AdminPage = () => {
       toast.success('User deleted');
     } catch (err) {
       toast.error(err.response?.data?.message || 'Failed to delete user');
+    }
+  };
+
+  const handleDeleteIdea = async (ideaId) => {
+    if (!window.confirm('Delete this idea? This cannot be undone.')) return;
+    try {
+      await axiosInstance.delete(`/admin/ideas/${ideaId}`);
+      setIdeas((prev) => prev.filter((idea) => idea._id !== ideaId));
+      toast.success('Idea deleted');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to delete idea');
     }
   };
 
@@ -97,6 +114,34 @@ const AdminPage = () => {
                     <FiTrash2 size={14} />
                   </button>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden mt-8">
+          <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+            <h2 className="text-sm font-semibold text-gray-700">Ideas</h2>
+            <span className="text-xs text-gray-400">{ideas.length} total</span>
+          </div>
+          <div className="divide-y divide-gray-100">
+            {ideas.length === 0 && (
+              <p className="px-6 py-4 text-sm text-gray-400">No ideas found.</p>
+            )}
+            {ideas.map((idea) => (
+              <div key={idea._id} className="flex items-center justify-between gap-4 px-6 py-4">
+                <div className="min-w-0">
+                  <p className="text-sm font-medium text-gray-800 truncate">{idea.title}</p>
+                  <p className="text-xs text-gray-400 truncate">
+                    by {idea.author?.name || idea.author?.email || 'Unknown'}
+                  </p>
+                </div>
+                <button
+                  onClick={() => handleDeleteIdea(idea._id)}
+                  className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors shrink-0"
+                >
+                  <FiTrash2 size={14} />
+                </button>
               </div>
             ))}
           </div>
