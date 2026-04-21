@@ -21,6 +21,7 @@ app.use('/api/comments', require('./routes/commentRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 app.use('/api/collaboration', require('./routes/collaborationRoutes'));
 app.use('/api/tasks', require('./routes/taskRoutes'));
+app.use('/api/updates', require('./routes/updateRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'OK' }));
