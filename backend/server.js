@@ -19,6 +19,7 @@ app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/ideas', require('./routes/ideaRoutes'));
 app.use('/api/comments', require('./routes/commentRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
+app.use('/api/collaboration', require('./routes/collaborationRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'OK' }));
