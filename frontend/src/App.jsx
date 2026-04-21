@@ -15,6 +15,7 @@ import CreateIdeaPage from './pages/CreateIdeaPage';
 import EditIdeaPage from './pages/EditIdeaPage';
 import ProfilePage from './pages/ProfilePage';
 import NotFoundPage from './pages/NotFoundPage';
+import AdminPage from './pages/AdminPage';
 
 import useAuthStore from './store/authStore';
 
@@ -49,6 +50,7 @@ function App() {
           <Route path="/dashboard" element={<Layout><DashboardPage /></Layout>} />
           <Route path="/ideas/create" element={<Layout><CreateIdeaPage /></Layout>} />
           <Route path="/ideas/:id/edit" element={<Layout><EditIdeaPage /></Layout>} />
+          <Route path="/admin" element={<Layout><AdminPage /></Layout>} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />
