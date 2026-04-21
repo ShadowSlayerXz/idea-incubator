@@ -16,6 +16,9 @@ const registerUser = async (req, res, next) => {
       _id: user._id,
       name: user.name,
       email: user.email,
+      bio: user.bio,
+      department: user.department,
+      avatar: user.avatar,
       role: user.role,
       token: generateToken(user._id),
     });

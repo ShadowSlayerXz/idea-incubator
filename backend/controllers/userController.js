@@ -22,12 +22,18 @@ const updateUserProfile = async (req, res, next) => {
     if (!user) return res.status(404).json({ message: 'User not found' });
 
     const { name, bio, department, avatar, skills, interests } = req.body;
-    if (name) user.name = name;
+    if (name !== undefined && name.trim().length > 0) user.name = name;
     if (bio !== undefined) user.bio = bio;
     if (department !== undefined) user.department = department;
     if (avatar !== undefined) user.avatar = avatar;
-    if (skills !== undefined) user.skills = skills;
-    if (interests !== undefined) user.interests = interests;
+    if (skills !== undefined) {
+      if (!Array.isArray(skills)) return res.status(400).json({ message: 'Skills must be an array' });
+      user.skills = skills;
+    }
+    if (interests !== undefined) {
+      if (!Array.isArray(interests)) return res.status(400).json({ message: 'Interests must be an array' });
+      user.interests = interests;
+    }
 
     const updated = await user.save();
     res.json({
