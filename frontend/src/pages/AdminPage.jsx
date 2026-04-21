@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { FiTrash2 } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 import axiosInstance from '../api/axiosInstance';
@@ -13,17 +12,12 @@ const ROLE_COLORS = {
 };
 
 const AdminPage = () => {
-  const { user, isAuthenticated } = useAuthStore();
-  const navigate = useNavigate();
+  const { user } = useAuthStore();
   const [users, setUsers] = useState([]);
   const [ideas, setIdeas] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isAuthenticated || user?.role !== 'admin') {
-      navigate('/');
-      return;
-    }
     Promise.all([
       axiosInstance.get('/admin/users'),
       axiosInstance.get('/admin/ideas'),
@@ -34,7 +28,7 @@ const AdminPage = () => {
       })
       .catch(() => toast.error('Failed to load admin data'))
       .finally(() => setLoading(false));
-  }, [isAuthenticated, user, navigate]);
+  }, []);
 
   const handleRoleChange = async (userId, role) => {
     try {
@@ -81,6 +75,9 @@ const AdminPage = () => {
             <span className="text-xs text-gray-400">{users.length} total</span>
           </div>
           <div className="divide-y divide-gray-100">
+            {users.length === 0 && (
+              <p className="px-6 py-4 text-sm text-gray-400">No users found.</p>
+            )}
             {users.map((u) => (
               <div key={u._id} className="flex items-center justify-between gap-4 px-6 py-4">
                 <div className="flex items-center gap-3 min-w-0">

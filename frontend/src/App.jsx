@@ -24,6 +24,13 @@ const AuthRedirect = ({ children }) => {
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : children;
 };
 
+const AdminRoute = ({ children }) => {
+  const user = useAuthStore((s) => s.user);
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
+  if (!isAuthenticated || user?.role !== 'admin') return <Navigate to="/" replace />;
+  return children;
+};
+
 const Layout = ({ children }) => (
   <div className="min-h-screen flex flex-col">
     <Navbar />
@@ -50,7 +57,7 @@ function App() {
           <Route path="/dashboard" element={<Layout><DashboardPage /></Layout>} />
           <Route path="/ideas/create" element={<Layout><CreateIdeaPage /></Layout>} />
           <Route path="/ideas/:id/edit" element={<Layout><EditIdeaPage /></Layout>} />
-          <Route path="/admin" element={<Layout><AdminPage /></Layout>} />
+          <Route path="/admin" element={<AdminRoute><Layout><AdminPage /></Layout></AdminRoute>} />
         </Route>
 
         <Route path="*" element={<NotFoundPage />} />
