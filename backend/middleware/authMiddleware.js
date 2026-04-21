@@ -23,4 +23,17 @@ const protect = async (req, res, next) => {
   }
 };
 
-module.exports = { protect };
+const isAdmin = (req, res, next) => {
+  if (req.user && req.user.role === 'admin') return next();
+  return res.status(403).json({ message: 'Admin access required' });
+};
+
+const isTeamMember = (idea, userId) => {
+  const uid = userId.toString();
+  return (
+    idea.author.toString() === uid ||
+    idea.collaborators.some((c) => c.toString() === uid)
+  );
+};
+
+module.exports = { protect, isAdmin, isTeamMember };

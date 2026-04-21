@@ -21,11 +21,13 @@ const updateUserProfile = async (req, res, next) => {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-    const { name, bio, department, avatar } = req.body;
+    const { name, bio, department, avatar, skills, interests } = req.body;
     if (name) user.name = name;
     if (bio !== undefined) user.bio = bio;
     if (department !== undefined) user.department = department;
     if (avatar !== undefined) user.avatar = avatar;
+    if (skills !== undefined) user.skills = skills;
+    if (interests !== undefined) user.interests = interests;
 
     const updated = await user.save();
     res.json({
@@ -35,6 +37,9 @@ const updateUserProfile = async (req, res, next) => {
       bio: updated.bio,
       department: updated.department,
       avatar: updated.avatar,
+      role: updated.role,
+      skills: updated.skills,
+      interests: updated.interests,
     });
   } catch (error) {
     next(error);
