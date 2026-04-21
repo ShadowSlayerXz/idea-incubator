@@ -9,6 +9,9 @@ const userSchema = new mongoose.Schema(
     bio: { type: String, default: '' },
     department: { type: String, default: '' },
     avatar: { type: String, default: '' },
+    role: { type: String, enum: ['student', 'mentor', 'admin'], default: 'student' },
+    skills: [{ type: String, trim: true }],
+    interests: [{ type: String, trim: true }],
     savedIdeas: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Idea' }],
   },
   { timestamps: true }
