@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { FiHeart, FiArrowLeft, FiEdit2, FiTrash2, FiUser } from 'react-icons/fi';
 import CommentSection from '../components/comment/CommentSection';
+import CollaborationTab from '../components/idea/CollaborationTab';
+import TasksTab from '../components/idea/TasksTab';
+import UpdatesTab from '../components/idea/UpdatesTab';
 import Spinner from '../components/common/Spinner';
 import Modal from '../components/common/Modal';
 import useIdeas from '../hooks/useIdeas';
@@ -24,6 +27,8 @@ const STATUS_COLORS = {
   completed: 'bg-gray-100 text-gray-700',
 };
 
+const TABS = ['collaboration', 'tasks', 'updates'];
+
 const IdeaDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -33,6 +38,7 @@ const IdeaDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [deleteModal, setDeleteModal] = useState(false);
   const [interestLoading, setInterestLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState('collaboration');
 
   useEffect(() => {
     fetchIdeaById(id).finally(() => setLoading(false));
@@ -63,7 +69,6 @@ const IdeaDetailPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
-        {/* Back */}
         <Link to="/" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-indigo-600 mb-6 transition-colors">
           <FiArrowLeft size={14} /> Back to ideas
         </Link>
@@ -92,19 +97,12 @@ const IdeaDetailPage = () => {
             </Link>
             <span className="text-gray-300">·</span>
             <span className="text-sm text-gray-400">{formatDate(idea.createdAt)}</span>
-
             {isOwner && (
               <div className="flex gap-2 ml-auto">
-                <Link
-                  to={`/ideas/${id}/edit`}
-                  className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                >
+                <Link to={`/ideas/${id}/edit`} className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
                   <FiEdit2 size={15} />
                 </Link>
-                <button
-                  onClick={() => setDeleteModal(true)}
-                  className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                >
+                <button onClick={() => setDeleteModal(true)} className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors">
                   <FiTrash2 size={15} />
                 </button>
               </div>
@@ -118,9 +116,7 @@ const IdeaDetailPage = () => {
           {idea.tags?.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-6">
               {idea.tags.map((tag) => (
-                <span key={tag} className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-600">
-                  #{tag}
-                </span>
+                <span key={tag} className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-600">#{tag}</span>
               ))}
             </div>
           )}
@@ -131,17 +127,37 @@ const IdeaDetailPage = () => {
               onClick={handleInterest}
               disabled={interestLoading}
               className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-colors ${
-                isInterested
-                  ? 'bg-red-50 text-red-600 hover:bg-red-100'
-                  : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100'
+                isInterested ? 'bg-red-50 text-red-600 hover:bg-red-100' : 'bg-indigo-50 text-indigo-600 hover:bg-indigo-100'
               } disabled:opacity-60`}
             >
               <FiHeart size={15} className={isInterested ? 'fill-red-500 text-red-500' : ''} />
               {isInterested ? 'Remove Interest' : 'Express Interest'}
             </button>
-            <span className="text-sm text-gray-500">
-              {idea.interestedUsers?.length || 0} interested
-            </span>
+            <span className="text-sm text-gray-500">{idea.interestedUsers?.length || 0} interested</span>
+          </div>
+
+          {/* Tabs */}
+          <div className="mt-6 pt-6 border-t border-gray-100">
+            <div className="flex border-b border-gray-200 mb-6 -mx-1">
+              {TABS.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-2.5 text-sm font-medium capitalize border-b-2 transition-colors ${
+                    activeTab === tab
+                      ? 'border-indigo-600 text-indigo-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+            {activeTab === 'collaboration' && (
+              <CollaborationTab idea={idea} onIdeaUpdate={() => fetchIdeaById(id)} />
+            )}
+            {activeTab === 'tasks' && <TasksTab idea={idea} />}
+            {activeTab === 'updates' && <UpdatesTab idea={idea} />}
           </div>
         </div>
 
