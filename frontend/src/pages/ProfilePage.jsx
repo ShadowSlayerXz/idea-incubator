@@ -28,8 +28,8 @@ const TagInput = ({ values, fieldName, setFieldValue, placeholder }) => {
   return (
     <div>
       <div className="flex flex-wrap gap-1.5 mb-2">
-        {values[fieldName].map((tag) => (
-          <span key={tag} className="flex items-center gap-1 text-xs px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-full">
+        {values[fieldName].map((tag, idx) => (
+          <span key={idx} className="flex items-center gap-1 text-xs px-2.5 py-1 bg-indigo-50 text-indigo-700 rounded-full">
             {tag}
             <button type="button" onClick={() => setFieldValue(fieldName, values[fieldName].filter((t) => t !== tag))}>
               <FiX size={10} />
@@ -109,15 +109,15 @@ const ProfilePage = () => {
                 {profile.bio && <p className="text-sm text-gray-500 mt-1 max-w-md">{profile.bio}</p>}
                 {profile.skills?.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 mt-2">
-                    {profile.skills.map((s) => (
-                      <span key={s} className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full">{s}</span>
+                    {profile.skills.map((s, idx) => (
+                      <span key={idx} className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-700 rounded-full">{s}</span>
                     ))}
                   </div>
                 )}
                 {profile.interests?.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 mt-1.5">
-                    {profile.interests.map((i) => (
-                      <span key={i} className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">{i}</span>
+                    {profile.interests.map((i, idx) => (
+                      <span key={idx} className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded-full">{i}</span>
                     ))}
                   </div>
                 )}
