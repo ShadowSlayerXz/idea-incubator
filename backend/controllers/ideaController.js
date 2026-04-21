@@ -50,8 +50,9 @@ const getAllIdeas = async (req, res, next) => {
 const getIdeaById = async (req, res, next) => {
   try {
     const idea = await Idea.findById(req.params.id)
-      .populate('author', 'name email avatar department')
-      .populate('interestedUsers', 'name email avatar');
+      .populate('author', 'name email avatar department role')
+      .populate('interestedUsers', 'name email avatar')
+      .populate('collaborators', 'name email avatar role');
 
     if (!idea) return res.status(404).json({ message: 'Idea not found' });
 
