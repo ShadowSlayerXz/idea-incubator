@@ -11,21 +11,64 @@ A full-stack MERN application where college students can submit research/startup
 | Database | MongoDB + Mongoose |
 | Auth | JWT + bcryptjs |
 
-## Setup
+## Project Structure
 
-### Backend
-```bash
-cd backend
-npm install
-# Configure .env (copy .env.example and fill in values)
-npm run dev
+```
+idea-incubator/
+├── server.js           # Express entry point
+├── package.json        # Root package (backend deps + dev scripts)
+├── config/             # Database connection
+├── controllers/        # Route handlers
+├── middleware/         # Auth & error middleware
+├── models/             # Mongoose schemas (User, Idea, Comment)
+├── routes/             # Express routers
+├── validators/         # express-validator chains
+├── utils/              # JWT helper
+└── client/             # React frontend (Vite)
+    └── src/
+        ├── pages/
+        ├── components/
+        ├── store/      # Zustand state
+        ├── hooks/      # useAuth, useIdeas
+        └── api/        # axios instance
 ```
 
-### Frontend
+## Setup
+
+### 1. Install dependencies
+
 ```bash
-cd frontend
-npm install
+npm run install-all
+```
+
+### 2. Configure environment
+
+```bash
+# Root – backend config
+cp .env.example .env
+# Fill in MONGO_URI, JWT_SECRET, etc.
+```
+
+### 3. Run in development
+
+```bash
 npm run dev
+# Backend:  http://localhost:5000
+# Frontend: http://localhost:5173
+```
+
+### 4. Build & run in production
+
+```bash
+npm run build   # builds React into client/dist
+npm start       # Express serves API + static frontend on port 5000
+```
+
+### Docker (production)
+
+```bash
+JWT_SECRET=<secret> docker compose up --build
+# App available at http://localhost:5000
 ```
 
 ## Features

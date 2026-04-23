@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
@@ -22,6 +23,14 @@ app.use('/api/users', require('./routes/userRoutes'));
 
 // Health check
 app.get('/api/health', (req, res) => res.json({ status: 'OK' }));
+
+// Serve React frontend in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/dist')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/dist/index.html'));
+  });
+}
 
 // Global error handler (must be last)
 app.use(errorHandler);

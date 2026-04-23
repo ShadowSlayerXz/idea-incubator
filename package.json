@@ -1,0 +1,26 @@
+{
+  "name": "idea-incubator",
+  "version": "1.0.0",
+  "description": "Smart Research Collaboration & Idea Incubator Platform",
+  "main": "server.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "concurrently \"nodemon server.js\" \"npm run dev --prefix client\"",
+    "build": "npm install --prefix client && npm run build --prefix client",
+    "start": "node server.js",
+    "install-all": "npm install && npm install --prefix client"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.0",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.4.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "nodemon": "^3.1.14"
+  }
+}
